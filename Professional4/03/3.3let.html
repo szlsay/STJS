@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <script>
+      var name = "Matt";
+      console.log(window.name); // 'Matt'
+      let age = 26;
+      console.log(window.age); // undefined
+    </script> -->
+
+    <!-- <script>
+      var name = "Nicholas";
+      let age = 26;
+    </script>
+    <script>
+      // 假设脚本不确定页面中是否已经声明了同名变量
+      // 那它可以假设还没有声明过
+      var name = "Matt";
+      // 这里没问题，因为可以被作为一个提升声明来处理
+      // 不需要检查之前是否声明过同名变量
+      let age = 36;
+      // 如果 age 之前声明过，这里会报错
+    </script> -->
+
+    <script>
+      let name = "Nicholas";
+      let age = 36;
+    </script>
+    <script>
+      // 假设脚本不确定页面中是否已经声明了同名变量
+      // 那它可以假设还没有声明过
+      if (typeof name === "undefined") {
+        let name;
+      }
+      // name 被限制在 if {} 块的作用域内
+      // 因此这个赋值形同全局赋值
+      name = "Matt";
+      try {
+        console.log(age); // 如果 age 没有声明过，则会报错
+      } catch (error) {
+        let age;
+      }
+      // age 被限制在 catch {}块的作用域内
+      // 因此这个赋值形同全局赋值
+      age = 26;
+    </script>
+  </body>
+</html>
