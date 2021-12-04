@@ -103,21 +103,123 @@
 // console.log(proxy.foo); // bar
 // console.log(target.foo); // bar
 
-const target = {
-  foo: "bar",
-  baz: "qux",
-};
-const handler = {
-  get(trapTarget, property, receiver) {
-    let decoration = "";
-    if (property === "foo") {
-      decoration = "!!!";
-    }
-    return Reflect.get(...arguments) + decoration;
-  },
-};
-const proxy = new Proxy(target, handler);
-console.log(proxy.foo); // bar!!!
-console.log(target.foo); // bar
-console.log(proxy.baz); // qux
-console.log(target.baz); // qux
+// const target = {
+//   foo: "bar",
+//   baz: "qux",
+// };
+// const handler = {
+//   get(trapTarget, property, receiver) {
+//     let decoration = "";
+//     if (property === "foo") {
+//       decoration = "!!!";
+//     }
+//     return Reflect.get(...arguments) + decoration;
+//   },
+// };
+// const proxy = new Proxy(target, handler);
+// console.log(proxy.foo); // bar!!!
+// console.log(target.foo); // bar
+// console.log(proxy.baz); // qux
+// console.log(target.baz); // qux
+
+// const target = {};
+// Object.defineProperty(target, "foo", {
+//   configurable: false,
+//   writable: false,
+//   value: "bar",
+// });
+
+// const handler = {
+//   get() {
+//     return "qux";
+//   },
+// };
+// const proxy = new Proxy(target, handler);
+// console.log(proxy.foo);
+// // TypeError
+
+// const target = {
+//   foo: "bar",
+// };
+// const handler = {
+//   get() {
+//     return "intercepted";
+//   },
+// };
+// const { proxy, revoke } = Proxy.revocable(target, handler);
+// console.log(proxy.foo); // intercepted
+// console.log(target.foo); // bar
+// revoke();
+// console.log(proxy.foo); // TypeError
+
+// // 初始代码
+// const o = {};
+// try {
+//   Object.defineProperty(o, "foo", "bar");
+//   console.log("success");
+// } catch (e) {
+//   console.log("failure");
+// }
+
+// const o = {};
+// if (Reflect.defineProperty(o, "foo", { value: "bar" })) {
+//   console.log("success");
+// } else {
+//   console.log("failure");
+// }
+
+// const target = {
+//   foo: "bar",
+// };
+// const firstProxy = new Proxy(target, {
+//   get() {
+//     console.log("first proxy");
+//     return Reflect.get(...arguments);
+//   },
+// });
+// const secondProxy = new Proxy(firstProxy, {
+//   get() {
+//     console.log("second proxy");
+//     return Reflect.get(...arguments);
+//   },
+// });
+// console.log(secondProxy.foo);
+// // second proxy
+// // first proxy
+// // bar
+
+// const target = {
+//   thisValEqualsProxy() {
+//     return this === proxy;
+//   },
+// };
+// const proxy = new Proxy(target, {});
+// console.log(target.thisValEqualsProxy()); // false
+// console.log(proxy.thisValEqualsProxy()); // true
+
+// const wm = new WeakMap();
+// class User {
+//   constructor(userId) {
+//     wm.set(this, userId);
+//   }
+//   set id(userId) {
+//     wm.set(this, userId);
+//   }
+//   get id() {
+//     return wm.get(this);
+//   }
+// }
+
+// // const user = new User(123);
+// // console.log(user.id); // 123
+// // const userInstanceProxy = new Proxy(user, {});
+// // console.log(userInstanceProxy.id); // undefined
+
+// const UserClassProxy = new Proxy(User, {});
+// const proxyUser = new UserClassProxy(456);
+// console.log(proxyUser.id);
+
+// const target = new Date();
+// const proxy = new Proxy(target, {});
+// console.log(proxy instanceof Date); // true
+// proxy.getDate(); // TypeError: 'this' is not a Date object
